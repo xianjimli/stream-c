@@ -100,6 +100,7 @@ static inline GObject gobject_init(GObjectDestroyFunc destroy, void* obj) {
 typedef int (*hash_func_t)(const void* data, size_t len);
 typedef int (*compare_func_t)(const void* a, const void* b, size_t len);
 typedef bool_t (*visit_func_t)(void* ctx, const void* data);
+typedef bool_t (*progress_func_t)(void* ctx, size_t finish, size_t total);
 
 #define ELM_NR(a) (sizeof(a)/sizeof(a[0]))
 #ifdef NDEBUG
