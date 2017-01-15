@@ -7,7 +7,7 @@ typedef struct _ostream_file_t {
 	FILE* fp;
 }ostream_file_t;
 
-static size_t ostream_file_write(ostream_t* s, void* buff, size_t len) {		
+static ssize_t ostream_file_write(ostream_t* s, void* buff, size_t len) {		
 	ostream_file_t* ofs = (ostream_file_t*)s;
 
 	return fwrite(buff, 1, len, ofs->fp);

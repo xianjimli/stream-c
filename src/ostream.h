@@ -9,7 +9,7 @@ struct _ostream_t;
 typedef struct _ostream_t ostream_t;
 
 typedef const char* (*ostream_get_name_t)(ostream_t* s);
-typedef size_t (*ostream_write_t)(ostream_t* s, void* buff, size_t len);
+typedef ssize_t (*ostream_write_t)(ostream_t* s, void* buff, size_t len);
 typedef void   (*ostream_flush_t)(ostream_t* s);
 typedef void   (*ostream_close_t)(ostream_t* s);
 
@@ -20,12 +20,12 @@ struct _ostream_t {
 	ostream_close_t     close;
 };
 
-static inline size_t ostream_write(ostream_t* s, void* buff, size_t len) {
+static inline ssize_t ostream_write(ostream_t* s, void* buff, size_t len) {
 	return_value_if_fail(s != NULL && s->write != NULL && buff != NULL, 0);
 	return s->write(s, buff, len);
 }
 
-static inline size_t ostream_write_c(ostream_t* s, uint8_t c) {
+static inline ssize_t ostream_write_c(ostream_t* s, uint8_t c) {
 	return_value_if_fail(s != NULL && s->write != NULL, 0);
 	return ostream_write(s, &c, 1);
 }

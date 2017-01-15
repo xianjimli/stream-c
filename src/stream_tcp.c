@@ -23,14 +23,14 @@ typedef struct _stream_tcp_t {
 	int sock;
 }stream_tcp_t;
 
-static int stream_tcp_read(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_tcp_read(stream_t* s, void* buff, size_t len) {
 	stream_tcp_t* tcp = (stream_tcp_t*)s;
-	return (int)recv(tcp->sock, buff, (int)len, 0);
+	return (ssize_t)recv(tcp->sock, buff, (int)len, 0);
 }
 
-static int stream_tcp_write(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_tcp_write(stream_t* s, void* buff, size_t len) {
 	stream_tcp_t* tcp = (stream_tcp_t*)s;
-	return (int)send(tcp->sock, buff, (int)len, 0);
+	return (ssize_t)send(tcp->sock, buff, (int)len, 0);
 }
 
 static void   stream_tcp_close(stream_t* s) {

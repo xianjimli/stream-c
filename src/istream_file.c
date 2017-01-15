@@ -9,7 +9,7 @@ typedef struct _istream_file_t {
 	size_t size;
 }istream_file_t;
 
-static size_t istream_file_read(istream_t* s, void* buff, size_t len) {
+static ssize_t istream_file_read(istream_t* s, void* buff, size_t len) {
 	istream_file_t* ifs = (istream_file_t*)s;
 
 	return fread(buff, 1, len, ifs->fp);

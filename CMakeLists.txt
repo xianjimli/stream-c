@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(stream)
 
+ADD_DEFINITIONS(
+	-g -W -Wall
+)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
@@ -36,6 +39,7 @@ else()
 endif()
 
 set(COMMON_SRC
+	serial/src/serial.cc
 	src/platform.c
 	src/istream_file.c	
 	src/ostream_file.c	

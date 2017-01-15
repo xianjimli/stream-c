@@ -8,11 +8,11 @@ BEGIN_C_DECLS
 struct _istream_t;
 typedef struct _istream_t istream_t;
 
-typedef size_t    (*istream_read_t)(istream_t* s, void* buff, size_t len);
-typedef bool_t (*istream_skip_t)(istream_t* s, int offset);
-typedef bool_t (*istream_reset_t)(istream_t* s);
-typedef void   (*istream_close_t)(istream_t* s);
-typedef size_t (*istream_available_t)(istream_t* s);
+typedef ssize_t (*istream_read_t)(istream_t* s, void* buff, size_t len);
+typedef bool_t  (*istream_skip_t)(istream_t* s, int offset);
+typedef bool_t  (*istream_reset_t)(istream_t* s);
+typedef void    (*istream_close_t)(istream_t* s);
+typedef size_t  (*istream_available_t)(istream_t* s);
 typedef const char* (*istream_get_name_t)(istream_t* s);
 
 struct _istream_t {
@@ -24,7 +24,7 @@ struct _istream_t {
 	istream_close_t     close;
 };
 
-static inline size_t istream_read(istream_t* s, void* buff, size_t len) {
+static inline ssize_t istream_read(istream_t* s, void* buff, size_t len) {
 	return_value_if_fail(s != NULL && s->read != NULL && buff != NULL, 0);
 	return s->read(s, buff, len);
 }

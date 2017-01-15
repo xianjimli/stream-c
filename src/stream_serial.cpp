@@ -1,4 +1,5 @@
 #include "stream_serial.h"
+#include "serial/serial.h"
 
 typedef struct _stream_serial_t {
 	stream_t stream;
@@ -6,16 +7,16 @@ typedef struct _stream_serial_t {
 	const char* port;
 }stream_serial_t;
 
-static int stream_serial_read(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_serial_read(stream_t* s, void* buff, size_t len) {
 	stream_serial_t* stream = (stream_serial_t*)s;
 	serial::Serial* dev = stream->dev;
-	return (int)dev->read((uint8_t*)buff, len);
+	return (ssize_t)dev->read((uint8_t*)buff, len);
 }
 
-static int stream_serial_write(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_serial_write(stream_t* s, void* buff, size_t len) {
 	stream_serial_t* stream = (stream_serial_t*)s;
 	serial::Serial* dev = stream->dev;
-	return (int)dev->write((uint8_t*)buff, len);
+	return (ssize_t)dev->write((uint8_t*)buff, len);
 }
 
 static void   stream_serial_close(stream_t* s) {
@@ -34,19 +35,23 @@ static void   stream_serial_flush(stream_t* s) {
 	return;
 }
 
-stream_t* stream_serial_create(
+extern "C" stream_t* stream_serial_create(
 		const char* port,
 		uint32_t baudrate,
-		serial::bytesize_t bytesize,
-		serial::parity_t parity,
-		serial::stopbits_t stopbits,
-		serial::flowcontrol_t flowcontrol
+		int bytesize,
+		int parity,
+		int stopbits,
+		int flowcontrol
 ) {
 	size_t timeo = 500;
 	stream_serial_t* stream = (stream_serial_t*)calloc(1, sizeof(stream_serial_t));
 	try {
-		stream->dev = new serial::Serial(std::string(port), baudrate, serial::Timeout::simpleTimeout(timeo), 
-			bytesize, parity, stopbits, flowcontrol);
+		stream->dev = new serial::Serial(std::string(port), 
+			baudrate, serial::Timeout::simpleTimeout(timeo), 
+			(serial::bytesize_t)bytesize, 
+			(serial::parity_t)parity, 
+			(serial::stopbits_t)stopbits, 
+			(serial::flowcontrol_t)flowcontrol);
 		printf("device=%s baudrate=%d bytesize=%d parity=%d stopbits=%d flowcontrol=%d\n", port, 
 			(int)baudrate, (int)bytesize, (int)parity, (int)stopbits, (int)flowcontrol);
 	}catch(...) {

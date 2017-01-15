@@ -30,7 +30,7 @@ static void log_buff(FILE* fp, const char* prefix, void* buff, size_t len) {
 	fflush(fp);
 }
 
-static int stream_log_read(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_log_read(stream_t* s, void* buff, size_t len) {
 	stream_log_t* log = (stream_log_t*)s;
 	int ret = stream_read(log->org_stream, buff, len);
 	if(ret > 0) {
@@ -40,7 +40,7 @@ static int stream_log_read(stream_t* s, void* buff, size_t len) {
 	return ret;
 }
 
-static int stream_log_write(stream_t* s, void* buff, size_t len) {
+static ssize_t stream_log_write(stream_t* s, void* buff, size_t len) {
 	stream_log_t* log = (stream_log_t*)s;
 	log_buff(log->fp, ">:", buff, len);
 	return stream_write(log->org_stream, buff, len);
