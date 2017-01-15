@@ -40,6 +40,7 @@ set(COMMON_SRC
 	src/istream_file.c	
 	src/ostream_file.c	
 	src/stream_tcp.c
+	src/stream_log.c
 	src/stream_serial.cpp
 )
 

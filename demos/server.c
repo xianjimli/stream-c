@@ -1,5 +1,6 @@
 #include "platform.h"
 #include "stream_tcp.h"
+#include "stream_log.h"
 
 int main(int argc, char* argv[]) {
 	int sock = 0;
@@ -14,7 +15,8 @@ int main(int argc, char* argv[]) {
 		size_t ret = 0;
 		uint8_t buff[1024];
 		stream_t* s = tcp_accept(sock);
-		
+	
+		s = stream_log_create(s, "server.log");
 		while((ret = stream_read(s, buff, sizeof(buff))) > 0) {
 			printf("%s", buff);
 			stream_write(s, buff, ret);
